@@ -1,6 +1,6 @@
 {
   "name": "giona.tech.gcp.api",
-  "description": "Simple hello world sample in Node",
+  "description": "giona.tech api's on Google Cloud Run",
   "version": "1.1.0",
   "private": true,
   "main": "index.js",
