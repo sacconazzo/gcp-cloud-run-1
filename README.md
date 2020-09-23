@@ -1,5 +1,5 @@
-# google cloud run api's
+# Google Cloud Run Api's
 
-Just push to master branch for deploy it
+Just push master branch to deploy it.
 
 Published here: https://api-1-r25tir2erq-uc.a.run.app
