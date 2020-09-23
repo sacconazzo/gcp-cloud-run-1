@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -22,7 +22,7 @@ const auth = (req, res, next) => {
   }
 };
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.send(`giona.tech API's`);
 });
 
