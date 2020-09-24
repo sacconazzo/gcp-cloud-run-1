@@ -7,7 +7,7 @@ app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 //users
-let users = {
+const users = {
   test: "test",
   scn: "try",
 };
@@ -32,7 +32,7 @@ app.listen(port, () => {
 });
 
 // sessions
-var store = new MongoDBStore({
+const store = new MongoDBStore({
   uri:
     "mongodb+srv://sacconazzo:Sacconazzo!03@cluster0.ckkuv.gcp.mongodb.net/scn?retryWrites=true&w=majority",
   databaseName: "scn",
