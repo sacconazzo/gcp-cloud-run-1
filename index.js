@@ -22,18 +22,14 @@ const auth = (req, res, next) => {
   }
 }
 
-app.get('/', (req, res) => {
-  res.send(process.env._WELCOME)
-})
-
-const port = process.env._PORT || 8080
+const port = process.env.PORT || 8080
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)
 })
 
 // sessions
 const store = new MongoDBStore({
-  uri: process.env._DB,
+  uri: process.env.DB,
   databaseName: 'scn',
   collection: 'sessions',
   connectionOptions: {
@@ -53,7 +49,7 @@ app.use(
 
 // main
 app.get('/', (req, res, next) => {
-  res.send("<p>giona.tech API's</p>")
+  res.send(`<p>${process.env.WELCOME}</p>`)
 })
 
 app.post('/login', (req, res, next) => {
