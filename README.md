@@ -1,5 +1,7 @@
 # Sample Serverless api on Google Cloud Run
 
+https://cloud.google.com/run/docs/quickstarts/deploy-continuously?hl=it
+
 Trigger on `main` and `develop` branches
 
 Published here:
