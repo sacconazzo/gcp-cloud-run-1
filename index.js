@@ -74,6 +74,3 @@ app.post("/data", auth, (req, res, next) => {
   req.session.data = req.body;
   res.sendStatus(201);
 });
-
-// Exports for testing purposes.
-module.exports = app;
