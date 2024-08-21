@@ -1,6 +1,6 @@
-# Google Cloud Run Api's
+# Sample Serverless api on Google Cloud Run
 
-Just push master branch to deploy it.
+Trigger on `main` and `develop` branches
 
 Published here:
 
