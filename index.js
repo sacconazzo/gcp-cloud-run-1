@@ -3,6 +3,7 @@ const app = express();
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const pack = require("./package.json");
+const mysql = require("mysql");
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -74,3 +75,30 @@ app.post("/data", auth, (req, res, next) => {
   req.session.data = req.body;
   res.sendStatus(201);
 });
+
+async function connectToDatabase() {
+  try {
+    // Connessione al database MySQL
+    const connection = mysql.createConnection({
+      host: "127.0.0.1", // Connessione locale attraverso il tunnel
+      port: "3306",
+      user: "root",
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+    });
+
+    connection.connect((err) => {
+      if (err) {
+        console.error("Errore di connessione al database:", err);
+        // ... gestione degli errori ...
+      } else {
+        console.log("Connesso al database MySQL!");
+        // ... esegui query o altre operazioni sul database ...
+      }
+    });
+  } catch (err) {
+    // ... gestione degli errori ...
+  }
+}
+
+connectToDatabase();

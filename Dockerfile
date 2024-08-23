@@ -18,25 +18,22 @@
 # https://hub.docker.com/_/node
 FROM node:20-slim
 
+### RUN install cloudflared
+
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 
-# Copy application dependency manifests to the container image.
-# A wildcard is used to ensure copying both package.json AND package-lock.json (when available).
-# Copying this first prevents re-running npm install on every code change.
 COPY package*.json ./
+COPY yarn.lock .
 
 ENV PORT=8080
 
-# Install production dependencies.
-# If you add a package-lock.json, speed your build by switching to 'npm ci'.
 # RUN npm ci --only=production
 RUN yarn
 
 # Copy local code to the container image.
 COPY . ./
 
-# Run the web service on container startup.
-CMD [ "node", "index.js" ]
-
-# [END run_helloworld_dockerfile]
+# Run the web service on container startup with cloudflare tunnel.
+CMD cloudflared access tcp --hostname mysql.giona.tech --url 127.0.0.1:3306 --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" \
+    node index.js
