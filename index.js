@@ -3,6 +3,7 @@ const app = express();
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const pack = require("./package.json");
+const mysql = require("mysql");
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -26,6 +27,22 @@ const auth = (req, res, next) => {
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+});
+
+const conn = mysql.createConnection({
+  host: "127.0.0.1", // connection throw cloudflare tunnel
+  port: "3306",
+  user: "root",
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+});
+
+conn.connect((err) => {
+  if (err) {
+    console.error("DB connection error:", err);
+  } else {
+    console.log("SQL DB connected");
+  }
 });
 
 // sessions
@@ -73,4 +90,8 @@ app.get("/session", auth, (req, res, next) => {
 app.post("/data", auth, (req, res, next) => {
   req.session.data = req.body;
   res.sendStatus(201);
+});
+
+app.get("/tunneldb", auth, (req, res, next) => {
+  res.json({ state: conn.state });
 });
