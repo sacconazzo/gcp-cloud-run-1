@@ -29,6 +29,22 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
+const conn = mysql.createConnection({
+  host: "127.0.0.1", // connection throw cloudflare tunnel
+  port: "3306",
+  user: "root",
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+});
+
+conn.connect((err) => {
+  if (err) {
+    console.error("DB connection error:", err);
+  } else {
+    console.log("SQL DB connected");
+  }
+});
+
 // sessions
 const store = new MongoDBStore({
   uri: process.env.DB,
@@ -76,29 +92,6 @@ app.post("/data", auth, (req, res, next) => {
   res.sendStatus(201);
 });
 
-async function connectToDatabase() {
-  try {
-    // Connessione al database MySQL
-    const connection = mysql.createConnection({
-      host: "127.0.0.1", // Connessione locale attraverso il tunnel
-      port: "3306",
-      user: "root",
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-    });
-
-    connection.connect((err) => {
-      if (err) {
-        console.error("Errore di connessione al database:", err);
-        // ... gestione degli errori ...
-      } else {
-        console.log("Connesso al database MySQL!");
-        // ... esegui query o altre operazioni sul database ...
-      }
-    });
-  } catch (err) {
-    // ... gestione degli errori ...
-  }
-}
-
-connectToDatabase();
+app.get("/tunneldb", auth, (req, res, next) => {
+  res.json({ state: conn.state });
+});
