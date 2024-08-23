@@ -92,6 +92,6 @@ app.post("/data", auth, (req, res, next) => {
   res.sendStatus(201);
 });
 
-app.get("/tunneldb", auth, (req, res, next) => {
+app.get("/tunneldb", (req, res, next) => {
   res.json({ state: conn.state });
 });

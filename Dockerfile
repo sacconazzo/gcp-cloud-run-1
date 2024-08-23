@@ -22,5 +22,5 @@ COPY . ./
 
 # Run the web service with cloudflare tunnel db.
 CMD cloudflared access tcp --hostname mysql.giona.tech --url 127.0.0.1:3306 \
-    --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" \
+    --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
     node index.js
