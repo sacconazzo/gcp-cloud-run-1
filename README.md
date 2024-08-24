@@ -12,7 +12,8 @@ Published here:
   - https://test-tun-zt.giona.tech (throw Cloudflare Tunnel behind Zero Trust)
 
 - develop:
-  - https://test.giona.tech
+
+  - https://test.giona.tech (simple cname record, bypassing tunnel)
   - https://api-1-test-r25tir2erq-ez.a.run.app (published by Google)
 
 ## with db tunnel over https
