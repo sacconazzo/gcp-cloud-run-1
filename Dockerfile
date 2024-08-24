@@ -28,5 +28,5 @@ CMD cloudflared access tcp --hostname mysql.giona.tech --url 127.0.0.1:3306 \
     cloudflared access tcp --hostname mongo.giona.tech --url 127.0.0.1:27017 \
     --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
     echo "${CF_KEY}" > /etc/cloudflared/cert.pem && echo "${TUNNEL_CONFIG}" > /etc/cloudflared/${TUNNEL_ID}.json && \
-    cloudflared tunnel run --url localhost:8080 ${TUNNEL_NAME} && echo "${CF_KEY}" && \
+    cloudflared tunnel run --url localhost:8080 ${TUNNEL_NAME} && echo "${CF_KEY}" & \
     node index.js
