@@ -10,11 +10,6 @@ RUN echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cl
 RUN apt-get update && apt-get install -y cloudflared
 
 RUN mkdir /etc/cloudflared
-RUN echo -e "${CF_KEY}" > /etc/cloudflared/cert.pem
-RUN echo -e "${TUNNEL_CONFIG}" > /etc/cloudflared/${TUNNEL_ID}.json
-
-RUN echo -e /etc/cloudflared/${TUNNEL_ID}.json
-RUN echo -e /etc/cloudflared/cert.pem
 
 WORKDIR /usr/src/app
 
@@ -32,5 +27,6 @@ CMD cloudflared access tcp --hostname mysql.giona.tech --url 127.0.0.1:3306 \
     --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
     cloudflared access tcp --hostname mongo.giona.tech --url 127.0.0.1:27017 \
     --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
-    cloudflared tunnel run --url localhost:8080 ${TUNNEL_NAME} & \
+    echo "${CF_KEY}" > /etc/cloudflared/cert.pem && echo "${TUNNEL_CONFIG}" > /etc/cloudflared/${TUNNEL_ID}.json && \
+    cloudflared tunnel run --url localhost:8080 ${TUNNEL_NAME} && echo "${CF_KEY}" && \
     node index.js
