@@ -47,8 +47,8 @@ conn.connect((err) => {
 
 // sessions
 const store = new MongoDBStore({
-  uri: process.env.DB,
-  databaseName: "scn",
+  uri: process.env.MONGO_CONNECTION,
+  databaseName: process.env.MONGO_DATABASE,
   collection: "sessions",
   connectionOptions: {
     useNewUrlParser: true,

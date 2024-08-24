@@ -13,4 +13,4 @@ Published here:
 
 - develop:
 
-  - https://api-1-test-r25tir2erq-ez.a.run.app (published by google)
+  - https://api-1-test-r25tir2erq-ez.a.run.app (published by Google)
