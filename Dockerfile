@@ -10,8 +10,10 @@ RUN echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cl
 RUN apt-get update && apt-get install -y cloudflared
 
 RUN mkdir /etc/cloudflared
-RUN echo "${CF_KEY}" > /etc/cloudflared/cert.pem
-RUN echo "${TUNNEL_CONFIG}" > /etc/cloudflared/${TUNNEL_ID}.json
+RUN echo -e "${CF_KEY}" > /etc/cloudflared/cert.pem
+RUN echo -e "${TUNNEL_CONFIG}" > /etc/cloudflared/${TUNNEL_ID}.json
+
+RUN cat /etc/cloudflared/cert.pem
 
 WORKDIR /usr/src/app
 
