@@ -11,16 +11,18 @@ RUN apt-get update && apt-get install -y cloudflared
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json .
 COPY yarn.lock .
 
 ENV PORT=8080
 
-RUN yarn
+RUN yarn install --production
 
 COPY . ./
 
 # Run the web service with cloudflare tunnel db.
 CMD cloudflared access tcp --hostname mysql.giona.tech --url 127.0.0.1:3306 \
+    --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
+    cloudflared access tcp --hostname mongo.giona.tech --url 127.0.0.1:27017 \
     --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
     node index.js
