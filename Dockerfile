@@ -29,4 +29,4 @@ CMD cloudflared access tcp --hostname mysql.giona.tech --url 127.0.0.1:3306 \
     --header "CF-Access-Client-Id: ${CF_ID}" --header "CF-Access-Client-Secret: ${CF_SECRET}" & \
     echo "${CF_KEY}" > /etc/cloudflared/cert.pem && echo "${TUNNEL_CONFIG}" > /etc/cloudflared/${TUNNEL_ID}.json && \
     cloudflared tunnel --protocol http2 run --url localhost:8080 ${TUNNEL_NAME} & \
-    node index.js
+    sleep 30 && node index.js
