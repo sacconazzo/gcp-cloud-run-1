@@ -3,7 +3,7 @@ const app = express();
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const pack = require("./package.json");
-const mysql = require("mysql");
+const mysql = require("mysql2/promise");
 
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -29,20 +29,14 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-const conn = mysql.createConnection({
+const pool = mysql.createPool({
   host: "127.0.0.1", // connection throw cloudflare tunnel
   port: "3306",
   user: "root",
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-});
-
-conn.connect((err) => {
-  if (err) {
-    console.error("DB connection error:", err);
-  } else {
-    console.log("SQL DB connected");
-  }
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
 });
 
 // sessions
@@ -92,6 +86,11 @@ app.post("/data", auth, (req, res, next) => {
   res.sendStatus(201);
 });
 
-app.get("/tunneldb", (req, res, next) => {
-  res.json({ state: conn.state });
+app.get("/tunneldb", async (req, res, next) => {
+  try {
+    const [active] = await pool.query(`SHOW PROCESSLIST`);
+    res.json({ connections: active.length });
+  } catch (error) {
+    res.json({ connections: error.message });
+  }
 });
