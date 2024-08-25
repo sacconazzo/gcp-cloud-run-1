@@ -89,7 +89,7 @@ app.post("/data", auth, (req, res, next) => {
 app.get("/tunneldb", async (req, res, next) => {
   try {
     const [active] = await pool.query(`SHOW PROCESSLIST`);
-    res.json({ connections: active.length });
+    res.json({ connections: active });
   } catch (error) {
     res.json({ connections: error.message });
   }
